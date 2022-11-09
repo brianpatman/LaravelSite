@@ -7,6 +7,11 @@
         <script type="text/javascript" src="/app.js"></script>
     </head>
     <body>
-        <h1>Hello World</h1>
+        <h1>Posts</h1>
+        <article>
+            <?= $post; ?>
+        </article>
+
+        <a href="/">Go Back</a>
     </body>
 </html>
