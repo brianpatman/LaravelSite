@@ -17,16 +17,34 @@
 + resource_path($path='') - Gives you the path to the "resources" folder of your laravel project; appends $path onto the end
 
 
+## Collections
+Collections are kind of like Laravel's method of arrays "on steriods". Collections seem to give you some object oriented syntax to do various things on arrays (map them, merge them, filter them, etc...)
+
+You create a collection with the "collect($object)" function, and that underlying collection object has tons of methods that spring off of it.
+
+### Map Arrays
+You can use collections to map arrays through Laravel (like the array_map() function), and even chain the map() calls off of one another. Like so:
+
+	$posts = collect(File::files(resource_path("posts/")))
+        ->map(fn($f) => YamlFrontMatter::parseFile($f))
+        ->map(fn($doc) => new Post(
+            $doc->title,
+            $doc->excerpt,
+            $doc->date,
+            $doc->slug,
+            $doc->body()
+        ));
+
+
 # ROUTE WILDCARDS/VARIABLES
 
-##Second argument are variables passed to the view file along with the request
+## The second argument in the view() function is an array of variables passed to the view along with the request
 
 	Route::get('/post',function(){
 	    return view('single-post',[
 	        'post' => "<h1>Hello World</h1>"
 	    ]);
 	});
-
 
 ## {$post_name} is a wildcard in Laravel and is passed through the variable $slug
 
@@ -40,12 +58,12 @@
 	});
 
 
-## WHERE clause
+# WHERE clause
 Where clauses are tacked onto the end of routes (->where) to restrict what URLs can access that route
-	+ where($regex) - where regex restricts the Route
-	+ whereAlpha - where wildcard is only alphabet chracters
-	+ whereAlphaNumeric - where wildcard is only alphabet and numeric characteres
-	+ whereNumber - where wildcard is only numbers
++ where($regex) - where regex restricts the Route
++ whereAlpha - where wildcard is only alphabet chracters
++ whereAlphaNumeric - where wildcard is only alphabet and numeric characteres
++ whereNumber - where wildcard is only numbers
 
 
 # YAML Front Matter
@@ -97,7 +115,7 @@ Use that instead of:
 
 ## Array Map
 
-You can use array_map($callback,$array) to return a new array from an existing object.
+You can use array_map($callback,$array) to return a new array from an existing object. Good to use whenever you are using a loop on an array/object to build a new array/object.
 
 	array_map(function($file){
 		return $file->getContents();
