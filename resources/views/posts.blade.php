@@ -8,7 +8,13 @@
     </head>
     <body>
         <h1>Posts</h1>
-        <article>
+
+        <?php foreach($posts as $p): ?>
+            <article>
+                <?php echo $p; ?>
+            </article>
+        <?php endforeach; ?>
+        <!-- <article>
             <h2>
                 <a href="/posts/my-first-post/">My First Post</a>
             </h2>
@@ -42,6 +48,6 @@
             consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
             cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </article>
+        </article> -->
     </body>
 </html>
