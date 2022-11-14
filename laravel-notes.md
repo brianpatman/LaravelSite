@@ -22,6 +22,9 @@ Collections are kind of like Laravel's method of arrays "on steriods". Collectio
 
 You create a collection with the "collect($object)" function, and that underlying collection object has tons of methods that spring off of it.
 
+### Functions
++ firstWhere($key,$value) - grab the first value in the collection with the given key/value pair
+
 ### Map Arrays
 You can use collections to map arrays through Laravel (like the array_map() function), and even chain the map() calls off of one another. Like so:
 
@@ -46,7 +49,7 @@ You can use collections to map arrays through Laravel (like the array_map() func
 	    ]);
 	});
 
-## {$post_name} is a wildcard in Laravel and is passed through the variable $slug
+## {post_name} is a wildcard in Laravel and is passed through the variable $slug
 
 	Route::get('post/{post_name}',function($slug){
 	    $path = __DIR__ . "/../resources/posts/{$slug}.html";
