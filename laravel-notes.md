@@ -1,5 +1,6 @@
 # CONSOLE COMMANDS
 "php artisan serve" - start up laravel server
+"php artisan tinker" - start up your laravel app's PHP shell
 
 
 # LARAVEL FUNCTIONS
@@ -15,6 +16,16 @@
 + base_path($path='') - Gives you the path to the base of your laravel project; appends $path onto the end
 + app_path($path='') - Gives you the path to the "app" folder of your laravel project; appends $path onto the end
 + resource_path($path='') - Gives you the path to the "resources" folder of your laravel project; appends $path onto the end
+
+
+## Caching
++ cache->remember($cache_key,$time,$function_to_cache)
+	+ Use a now()->addSeconds(5) or other similar function calls to set the time
++ cache->rememberForever($cache_key,$function_to_cache)
++ cache->forget($cache_key)
++ cache('posts.all') or cache->get('posts.all')
++ cache->put('foo','bar')
++ cache(['foo','bar'],now->addSeconds(3))
 
 
 ## Collections
@@ -37,6 +48,15 @@ You can use collections to map arrays through Laravel (like the array_map() func
             $doc->slug,
             $doc->body()
         ));
+
+### Sort Arrays
+You can use collections to also sort by a certain key:
+
+	->sortBy('date')
+
+But it sorts in Ascending order by default, so to sort by Descending:
+
+	->sortByDesc('date')
 
 
 # ROUTE WILDCARDS/VARIABLES
@@ -96,6 +116,56 @@ Then use your PHP to grab those values
 
 	// You can also retrieve a property like so:
 	$object->title; // My First Post
+
+
+
+# Blade Templating Engine Notes
+Laravel actually does support general PHP files, and doesn't always need the \*.blade.php files. But the blade templating engine adds in a ton of useful features that can benefit us as we're writing code.
+
+## Where does this get compiled
+The blade syntax gets compiled in the end to straight PHP code. You can find the output vanilla PHP files under storage/framework/views in your laravel project
+
+## Output Variables
+You can instead of using the general PHP syntax, use a set of double curly braces to output variables. So, instead of this:
+
+	<?= $post->title; ?>
+
+You can use this in Blade:
+
+	{{ $post->title }}
+
+But, this escapes everything, which can be a problem if you have a value that is HTML that you'd rather not be escaped. 
+
+So, for that reason, you use the following syntax. Think of the exclamation points as "Hey, make SURE this data is safe to output!!! Because we're not excaping this data!!!" This might be a problem with user-supplied content, for example:
+
+	{!! $post->body !!}
+
+## Blade Directives
+A blade directive is basically a function or loop statement in Blade syntax. Pretty much any common PHP directive has a cooresponding Blade Directive
+
+	@foreach ($posts as $p)
+		{{ $p->title }}
+	@endforeach
+
+Or you can use functions like dd!
+
+	@foreach($posts as $p)
+		@dd($loop)
+	@endforeach
+
+Also, there's an "@unless" directive, which is essentially the opposite of "@if". "Unless this is true, do this"
+
+Also, loops have the following properties built into an automatically assigned "$loop" element:
++ iteration
++ index
++ remaining
++ count
++ first
++ last
++ odd
++ even
++ depth
++ parent
 
 
 # General PHP Notes

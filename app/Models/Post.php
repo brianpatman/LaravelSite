@@ -27,20 +27,26 @@ class Post
 		$files = File::files(resource_path("posts/"));
 	    $posts = [];
 
-	    ///////////////////////////////////////
-	    // USING LARAVEL COLLECTIONS TO LOOP //
-	    ///////////////////////////////////////
-	    //
-	    $posts = collect(File::files(resource_path("posts/")))
-	        ->map(fn($f) => YamlFrontMatter::parseFile($f))
-	        ->map(fn($doc) => new Post(
-	            $doc->title,
-	            $doc->excerpt,
-	            $doc->date,
-	            $doc->slug,
-	            $doc->body()
-	        ));
+	    return cache()->rememberForever('posts.all',function(){
+	    	///////////////////////////////////////
+		    // USING LARAVEL COLLECTIONS TO LOOP //
+		    ///////////////////////////////////////
+		    //
+		    $posts = collect(File::files(resource_path("posts/")))
+		        ->map(fn($f) => YamlFrontMatter::parseFile($f))
+		        ->map(fn($doc) => new Post(
+		            $doc->title,
+		            $doc->excerpt,
+		            $doc->date,
+		            $doc->slug,
+		            $doc->body()
+		        ))
+		        ->sortByDesc('date');
 
+		    return $posts;
+	    });
+
+	    
 	    /////////////////////////////
 	    // USING ARRAY_MAP TO LOOP //
 	    /////////////////////////////
@@ -70,21 +76,9 @@ class Post
 	    //         $doc->body()
 	    //     );
 	    // }
-
-		return $posts;
 	}
 
 	public static function find($slug){
-		// $path = resource_path("posts/{$slug}.html");
-
-		//  if(!file_exists($path)){
-	    //     // return redirect("/");
-	    //     throw new ModelNotFoundException();
-	    // }
-
-	    // $post = cache()->remember("posts.{$slug}",now()->addSeconds(5), fn() => file_get_contents($path));
-	    // return $post;
-
 	    return static::all()->firstWhere('slug',$slug);
 	}
 }
