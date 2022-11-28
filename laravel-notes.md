@@ -168,6 +168,60 @@ Also, loops have the following properties built into an automatically assigned "
 + parent
 
 
+## Layout Files
+Layout files are basically Laravel's version of PHP's include/require, but way more powerful. Whereas PHP might have a header and footer file for you to separately include, Laravel's layout file basically just will allow you to define places for content that each main view can define.
+
+Now, there are two ways to do this; template files and blade components. Neither is better than the other, though! They are both valid ways to achieve this task! There is no better or worse option here.
+
+When you use blade components, you're thinking your way top down, while template files are thinking from the bottom up.
+
+### Template Files
+This is just another blade file within the views directory; perhaps named something like "layout.blade.php". Then, you use @yield to show where the main view's content will be embedded.
+
++ @extends($layout_file) - When included in a blade file, this signals that this blade file extends off of that layout file; so it just defines the sections that the layout file @yields
++ @yield($section_name) - This is the place where a blade file that extends this blade file will insert a section with the given section name
++ @section($section_name)/@endsection - This creates a section that will be put into place where the @yield directive is.
+
+### Blade Components
+A blade component, at the simplest level, allows you to wrap some HTML. But they have a lot more powerful features.
+
+Create a directory named "components" within your "resources/views" directory. Then, any blade files in this folder will automatically be available as blade components.
+
+Instead of using @yield, just use the blade syntax for outputting variables 
+
+	{{ $content }}
+
+And, instead of using an @extends and @section variables, you just create a html tag that is the name of your component, preceded by "x-". So, in this case, a layout.blade.php file in your /components directory would be called by another blade file via something like this:
+
+	<x-layout></x-layout>
+
+To pass in variables, you can use attributes on this:
+
+	<x-layout content="hello there!"></x-layout>
+
+Or you can use a slot syntax
+
+	<x-layout>
+		<x-slot name="content">
+			Hello again!
+		</x-slot>
+	</x-layout>
+
+But you can also do a default slot, which is just HTML right within the component element
+
+	<x-layout>
+		<article class="main-article">
+			<h1>My blog</h1>
+			...
+	</x-layout>
+
+This slot will be referred to with the $slot variable. So you will just define this in the component itself like so:
+
+	<body>
+		{{ $slot }}
+	</body>
+
+
 # General PHP Notes
 
 ## Sweet Shorthand on PHP 7.4 or higher - You can use arrow functions!

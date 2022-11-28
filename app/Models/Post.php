@@ -79,6 +79,32 @@ class Post
 	}
 
 	public static function find($slug){
-	    return static::all()->firstWhere('slug',$slug);
+	    $post = static::all()->firstWhere('slug',$slug);
+
+	    if(! $post){
+	    	throw ModelNotFoundException();
+	    }
+
+	    return $post;
 	}
+
+
+	// Want to have two different methods; one that fails
+	// by throwing an exception and one that fails by just 
+	// returning null? Here ya go!
+	//
+	
+	// public static function find($slug){
+	//     return static::all()->firstWhere('slug',$slug);
+	// }
+
+	// public static function findOrFail($slug){
+	//     $post = find($slug);
+
+	//     if(! $post){
+	//     	throw ModelNotFoundException();
+	//     }
+
+	//     return $post;
+	// }
 }

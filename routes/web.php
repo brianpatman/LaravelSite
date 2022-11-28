@@ -25,4 +25,6 @@ Route::get('posts/{post_name}',function($slug){
     return view('single-post',[
         'post' => Post::find($slug)
     ]);
-})->where('post_name','[A-z_\-]+');
+}); 
+
+//->where('post_name','[A-z_\-]+');
