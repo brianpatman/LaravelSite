@@ -1,6 +1,7 @@
 # CONSOLE COMMANDS
 "php artisan serve" - start up laravel server
 "php artisan tinker" - start up your laravel app's PHP shell
+"php artisan migrate" - Triggers default "migrations" to the current database defined in the .env file; not sure what this is used for so far.
 
 
 # LARAVEL FUNCTIONS
@@ -117,8 +118,6 @@ Then use your PHP to grab those values
 	// You can also retrieve a property like so:
 	$object->title; // My First Post
 
-
-
 # Blade Templating Engine Notes
 Laravel actually does support general PHP files, and doesn't always need the \*.blade.php files. But the blade templating engine adds in a ton of useful features that can benefit us as we're writing code.
 
@@ -220,6 +219,31 @@ This slot will be referred to with the $slot variable. So you will just define t
 	<body>
 		{{ $slot }}
 	</body>
+
+
+# .ENV file
+This file is a place to put application secrets or other config dtails, and exists in the root of your project. This file is by default included in .gitignore, and each variable can be called from the .env file by using the following function
+
+	env("DB_CONNECTION",'mysql')
+
+Where the first argument is the key the function is looking for, and the second argument is a fallback argument if that variable isn't specified in the .env file.
+
+The variables contained in this file will never be exposed to the outside world, so this is the best place to put keys or secrets that shouldn't be publicly available
+
+
+# Migrations
+Migrations are essentially ways for your application to define the database structure of your tables. The migrations are kept in the /database/migrations directory and laravel, by default, comes with 4 migrations.
+
+If you look into these files, you'll see an "up()" method and a "down()" method. "up()" is what is called when the migration is executed, while "down()" is called when the migration is rolled back or the table is dropped.
+
+You can set your database to run these migrations with the command "php artisan migrate".
+
+Roll back a migration with "php artisan migrate:rollback"
+
+Get yourself a clean start; all tables but zero data inside of them with "php artisan migrate:fresh". NEVER USE THIS ON PRODUCTION!!!!
+
+This stuff probably makes it really easy to setup a laravel local environment. Or, in the case of production environments, perhaps a system that uses the same code for all sites but those sites are branded differently. 
+
 
 
 # General PHP Notes
