@@ -3,6 +3,8 @@
 "php artisan tinker" - start up your laravel app's PHP shell
 "php artisan migrate" - Triggers default "migrations" to the current database defined in the .env file; not sure what this is used for so far.
 
+"composer update" - Update all the packages and stuff that Laravel uses
+
 
 # LARAVEL FUNCTIONS
 ## Error Handling
@@ -243,6 +245,12 @@ Roll back a migration with "php artisan migrate:rollback"
 Get yourself a clean start; all tables but zero data inside of them with "php artisan migrate:fresh". NEVER USE THIS ON PRODUCTION!!!!
 
 This stuff probably makes it really easy to setup a laravel local environment. Or, in the case of production environments, perhaps a system that uses the same code for all sites but those sites are branded differently. 
+
+# Eloquent
+
+Laravel's way to interact with your database tables
+
+Each database table can have a cooresponding Eloquent Model, kept within the app/Models directory with your other models.
 
 
 
